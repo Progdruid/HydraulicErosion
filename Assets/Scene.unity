@@ -331,13 +331,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 1999404305}
-  seed: 2
-  Iters: 5000
+  seed: 4
+  Iters: 10000
   lifetime: 50
-  speed: 1
-  lerpRadius: 6
-  Add: -0.0005
   checkRange: 2
+  MaxErosion: 0.0005
+  DepositPart: 0.5
+  StartSediment: 0.01
+  ErosionRadius: 6
+  DepositRadius: 9
 --- !u!154 &1999404304
 TerrainCollider:
   m_ObjectHideFlags: 0

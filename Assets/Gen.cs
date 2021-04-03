@@ -5,16 +5,20 @@ using UnityEngine;
 public class Gen : MonoBehaviour
 {
     public Terrain terrain;
+
     [Space]
     public int seed;
     [Space]
     public int Iters;
     public int lifetime;
-    [Space]
-    public float speed;
-    public float lerpRadius;
-    public float Add;
     public int checkRange;
+
+    [Space]
+    public float MaxErosion;
+    public float DepositPart;
+    public float StartSediment;
+    public float ErosionRadius;
+    public float DepositRadius;
 
     private int size;
 
@@ -43,7 +47,7 @@ public class Gen : MonoBehaviour
     {
         float[,] newMap = map;
         Vector2Int prev = droplet_point;
-
+        float sediment = StartSediment;
 
         for (int i = 0; i < lifetime; i++)
         {
@@ -56,19 +60,25 @@ public class Gen : MonoBehaviour
             //Exit if "Stuck"
             float curh = map[prev.x, prev.y];
             if (N >= curh && E >= curh && S >= curh && W >= curh)
-            {
-                Debug.Log($"Cur: {curh}, N: {N}, E: {E}, S: {S}, W: {W}");
                 return newMap;
-            }
+            
 
-            Vector2 normal = GetGrad(N, E, S, W);
+            Vector2 grad = -GetGrad(N, E, S, W);
+
+            float slope = Mathf.Max(Mathf.Abs(grad.x), Mathf.Abs(grad.y));
+            float erosion = slope * MaxErosion * (lifetime - i) / lifetime;
+            float deposit = (1f - slope) * DepositPart * sediment;
+            sediment += erosion - deposit;
+            //Debug.Log(sediment);
 
             //Change terrain with lerping
-            map = AddLerped(map, size, prev.x, prev.y, Add, lerpRadius);
+            map = AddLerped(map, size, prev.x, prev.y, -erosion, ErosionRadius);
+            map = AddLerped(map, size, prev.x, prev.y, deposit, DepositRadius);
 
             //New position calculation
-            Vector2 velocity = -normal * speed;
+            Vector2 velocity = grad;
             Vector2Int newPos = Vector2Int.RoundToInt(prev + velocity);
+
 
             //Exit if "Out of bounds"
             if (newPos.x < 0 || newPos.x >= size || newPos.y < 0 || newPos.y >= size)
