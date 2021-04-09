@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Gen : MonoBehaviour
 
     [Space]
     public int seed;
+    public float[] freqs;
+
     [Space]
     public int Iters;
     public int lifetime;
@@ -128,17 +131,12 @@ public class Gen : MonoBehaviour
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
             {
-                float n1 = 1f / width;
-                float n2 = 2f / width;
-                float n3 = 4f / width;
-                float n4 = 8f / width;
-
-                float perlin1 = Mathf.PerlinNoise(seed + x * n1, seed + y * n1);
-                float perlin2 = Mathf.PerlinNoise(2 * seed + x * n2, 2 * seed + y * n2);
-                float perlin3 = Mathf.PerlinNoise(3 * seed + x * n3, 3 * seed + y * n3);
-                float perlin4 = Mathf.PerlinNoise(4 * seed + x * n4, 4 * seed + y * n4);
-
-                float num = (perlin1 + perlin2 + perlin3 + perlin4) / 4f;
+                float[] nums = new float[freqs.Length];
+                for (int i = 0; i < freqs.Length; i++)
+                {
+                    nums[i] = Mathf.PerlinNoise(seed * freqs[i] * i + x * freqs[i] / size, seed * freqs[i] * i + y * freqs[i] / size);
+                }
+                float num = nums.Average();
 
                 res[x, y] = num;
             }

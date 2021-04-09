@@ -59,6 +59,7 @@
     <Compile Include="Assets\Gen.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\TerrainShader.shader" />
     <Reference Include="UnityEngine">
       <HintPath>D:\Code\2020.2.2f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

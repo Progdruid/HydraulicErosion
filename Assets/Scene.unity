@@ -331,8 +331,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 1999404305}
-  seed: 4
-  Iters: 10000
+  seed: 6
+  freqs:
+  - 2
+  - 4
+  - 8
+  Iters: 6000
   lifetime: 50
   checkRange: 2
   MaxErosion: 0.0005
@@ -375,7 +379,7 @@ Terrain:
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: 8f3d5cb6a89d3e84097fc248ee879ffb, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
